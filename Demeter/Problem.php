@@ -9,9 +9,11 @@ class Car
     {
     }
 
-    public function power(): int
+    public function environmentalLabel(): string
     {
-        return $this->engine->power()->value();
+        $pollution = $this->engine->power()->pollution();
+        //Logica para calcula la etiqueta medio ambiental
+        return 'AAA';
     }
 }
 
@@ -29,6 +31,8 @@ class Engine
 
 class Power
 {
+    const POLLUTION_RATE = 1.2;
+
     public function __construct(private readonly int $power)
     {
     }
@@ -36,5 +40,11 @@ class Power
     public function value(): int
     {
         return $this->power;
+    }
+
+    public function pollution(): float
+    {
+        //Logica para calcular la contaminacion
+        return $this->power * self::POLLUTION_RATE;
     }
 }
