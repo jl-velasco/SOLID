@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-interface Shape {
-    public function area(): float|int;
+abstract class Shape
+{
+    abstract public function area(): float|int;
 }
 
-class Rectangle implements Shape
+class Rectangle extends Shape
 {
     public function __construct(
         protected int $width,
@@ -20,7 +21,7 @@ class Rectangle implements Shape
     }
 }
 
-class Square implements Shape
+class Square extends Shape
 {
     public function __construct(
         protected int $width
