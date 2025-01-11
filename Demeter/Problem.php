@@ -1,50 +1,72 @@
 <?php
-declare(strict_types = 1);
 
-class Car
+class Book
 {
-    public function __construct(
-        private readonly Engine $engine,
-    )
+    private $title;
+
+    public function __construct($title)
     {
+        $this->title = $title;
     }
 
-    public function environmentalLabel(): string
+    public function getTitle()
     {
-        $pollution = $this->engine->power()->pollution();
-        //Logica para calcula la etiqueta medio ambiental
-        return 'AAA';
+        return $this->title;
     }
 }
 
-class Engine
+class Shelf
 {
-    public function __construct(private readonly Power $power)
+    private $books;
+
+    public function __construct($books)
     {
+        $this->books = $books;
     }
 
-    public function power(): Power
+    public function getBooks()
     {
-        return $this->power;
+        return $this->books;
     }
 }
 
-class Power
+class Library
 {
-    const POLLUTION_RATE = 1.2;
+    private $shelves;
 
-    public function __construct(private readonly int $power)
+    public function __construct($shelves)
     {
+        $this->shelves = $shelves;
     }
 
-    public function value(): int
+    public function getShelves()
     {
-        return $this->power;
-    }
-
-    public function pollution(): float
-    {
-        //Logica para calcular la contaminacion
-        return $this->power * self::POLLUTION_RATE;
+        return $this->shelves;
     }
 }
+
+class LibraryService
+{
+    public function findBookByTitle(Library $library, $title)
+    {
+        foreach ($library->getShelves() as $shelf) {
+            foreach ($shelf->getBooks() as $book) {
+                if ($book->getTitle() === $title) {
+                    echo "Libro encontrado: $title\n";
+                    return $book;
+                }
+            }
+        }
+
+        echo "Libro no encontrado: $title\n";
+        return null;
+    }
+}
+
+$book1 = new Book("El Principito");
+$book2 = new Book("1984");
+$shelf = new Shelf([$book1, $book2]);
+$library = new Library([$shelf]);
+
+$service = new LibraryService();
+$service->findBookByTitle($library, "1984");

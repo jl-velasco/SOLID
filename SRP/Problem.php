@@ -3,27 +3,23 @@ declare(strict_types = 1);
 
 class Report
 {
-    public function title(): string
+    public function generate()
     {
-        return 'Report Title';
+        return "Datos del informe";
     }
 
-    public function date(): string
+    public function saveToFile($filename)
     {
-        return '2016-04-21';
+        $data = $this->generate();
+        file_put_contents($filename, $data);
     }
 
-    public function contents(): array
+    public function printReport()
     {
-        return [
-            'title' => $this->title(),
-            'date' => $this->date(),
-        ];
-    }
-
-    /** @throws JsonException */
-    public function formatJson()
-    {
-        return json_encode($this->contents(), JSON_THROW_ON_ERROR);
+        echo $this->generate();
     }
 }
+
+$report = new Report();
+$report->saveToFile('reporte.txt');
+$report->printReport();

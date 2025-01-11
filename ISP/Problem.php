@@ -1,57 +1,56 @@
 <?php
-declare(strict_types=1);
 
-interface Workable
+interface Printer
 {
-    public function canCode(): bool;
-
-    public function code(): string;
-
-    public function test(): string;
+    public function printDocument($document);
+    public function scanDocument($document);
+    public function sendFax($document, $faxNumber);
 }
 
-class Programmer implements Workable
+class BasicPrinter implements Printer
 {
-    public function canCode(): bool
+    public function printDocument($document)
     {
-        return true;
+        echo "Imprimiendo documento: $document\n";
     }
 
-    public function code(): string
+    public function scanDocument($document)
     {
-        return 'coding';
+        throw new Exception("Este dispositivo no puede escanear.");
     }
 
-    public function test(): string
+    public function sendFax($document, $faxNumber)
     {
-        return 'testing in localhost';
+        throw new Exception("Este dispositivo no puede enviar fax.");
     }
 }
 
-class Tester implements Workable
+class AllInOnePrinter implements Printer
 {
-    public function canCode(): bool
+    public function printDocument($document)
     {
-        return false;
+        echo "Imprimiendo documento: $document\n";
     }
 
-    public function code(): string
+    public function scanDocument($document)
     {
-        throw new Exception('Opps! I can not code');
+        echo "Escaneando documento: $document\n";
     }
 
-    public function test(): string
+    public function sendFax($document, $faxNumber)
     {
-        return 'testing in test server';
+        echo "Enviando fax del documento $document al número $faxNumber\n";
     }
 }
 
-class ProjectManagement
+// Uso
+function processPrinter(Printer $printer, $document)
 {
-    public function processCode(Workable $member): string
-    {
-        if ($member->canCode()) {
-            return $member->code();
-        }
-    }
+    $printer->printDocument($document);
+    $printer->scanDocument($document);
+    $printer->sendFax($document, "123456");
 }
+
+// Prueba
+$basicPrinter = new BasicPrinter();
+processPrinter($basicPrinter, "Mi Documento"); // Error: Métodos no soportados generan excepciones

@@ -1,34 +1,20 @@
 <?php
-declare(strict_types = 1);
 
-class Programmer
+class NotificationSender
 {
-    public function code(): string
+    public function send($type, $message)
     {
-        return 'coding';
-    }
-}
-
-class Tester
-{
-    public function test(): string
-    {
-        return 'testing';
-    }
-}
-
-class ProjectManagement
-{
-    public function process(mixed $member): string
-    {
-        if ($member instanceof Programmer) {
-            return $member->code();
+        if ($type === 'email') {
+            echo "Enviando email: $message\n";
+        } elseif ($type === 'sms') {
+            echo "Enviando SMS: $message\n";
+        } else {
+            echo "Tipo de notificación no soportado.\n";
         }
-
-        if ($member instanceof Tester) {
-            return $member->test();
-        }
-
-        throw new \RuntimeException('Invalid input member');
     }
 }
+
+// Uso
+$sender = new NotificationSender();
+$sender->send('email', '¡Hola desde email!');
+$sender->send('sms', '¡Hola desde SMS!');

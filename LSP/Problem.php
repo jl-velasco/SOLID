@@ -1,35 +1,46 @@
 <?php
-declare(strict_types = 1);
 
-class Rectangle
+class Vehicle
 {
-    public function __construct(
-        protected int $width,
-        protected int $height,
-    )
+    public function startEngine()
     {
+        echo "Motor encendido.\n";
     }
 
-    public function area(): float|int
+    public function drive()
     {
-        return $this->width * $this->height;
+        echo "El vehículo está en movimiento.\n";
     }
 }
 
-class Square extends Rectangle
+class Car extends Vehicle
 {
-    public function __construct(
-        protected int $width
-    )
+    // Funciona perfectamente, ya que un coche tiene motor y se mueve
+}
+
+class Bicycle extends Vehicle
+{
+    public function startEngine()
     {
-        parent::__construct($width, $width);
+        throw new Exception("Una bicicleta no tiene motor.");
+    }
+
+    public function drive()
+    {
+        echo "La bicicleta está siendo pedaleada.\n";
     }
 }
 
-$width = 5;
-$height = 4;
-$rectangle = new Rectangle($width, $height);
-echo $rectangle->area() . "\n";
+// Uso
+function operateVehicle(Vehicle $vehicle)
+{
+    $vehicle->startEngine();
+    $vehicle->drive();
+}
 
-$square = new Square($width);
-echo $square->area() . "\n";
+// Prueba
+$car = new Car();
+operateVehicle($car); // Funciona correctamente: "Motor encendido" y "El vehículo está en movimiento."
+
+$bicycle = new Bicycle();
+operateVehicle($bicycle); // Error: Comportamiento inesperado ("Una bicicleta no tiene motor.")

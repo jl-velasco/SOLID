@@ -5,7 +5,7 @@ class Mailer
 {
     public function send(string $email, string $content): void
     {
-        // send email
+        echo "Enviando email: $message\n a $email";
     }
 }
 
