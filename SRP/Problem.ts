@@ -1,20 +1,32 @@
-class Report {
-    public generate(): string {
-        return "Datos del informe";
+class Order {
+    private items: { item: string, price: number }[] = [];
+    private total: number = 0;
+
+    addItem(item: string, price: number): void {
+        this.items.push({ item, price });
+        this.total += price;
     }
 
-    public saveToFile(filename: string): void {
-        const data = this.generate();
-        const fs = require('fs');
-        fs.writeFileSync(filename, data, { encoding: 'utf8' });
+    getTotal(): number {
+        return this.total;
     }
 
-    public printReport(): void {
-        console.log(this.generate());
+    saveToDatabase(): void {
+        // Simulación de guardar en la base de datos
+        console.log("Guardando el pedido en la base de datos...");
+    }
+
+    generateInvoice(): void {
+        console.log("Generando factura del pedido...");
+        this.items.forEach(item => {
+            console.log(`Producto: ${item.item}, Precio: ${item.price}`);
+        });
+        console.log(`Total: ${this.total}`);
     }
 }
 
-
-const report = new Report();
-report.saveToFile('reporte.txt');
-report.printReport();
+const order = new Order();
+order.addItem("Laptop", 1000);
+order.addItem("Mouse", 50);
+order.saveToDatabase();
+order.generateInvoice();
