@@ -1,25 +1,39 @@
 <?php
-declare(strict_types = 1);
 
-class Report
+class Order
 {
-    public function generate()
+    private $items = [];
+    private $total = 0;
+
+    public function addItem($item, $price)
     {
-        return "Datos del informe";
+        $this->items[] = ['item' => $item, 'price' => $price];
+        $this->total += $price;
     }
 
-    public function saveToFile($filename)
+    public function getTotal()
     {
-        $data = $this->generate();
-        file_put_contents($filename, $data);
+        return $this->total;
     }
 
-    public function printReport()
+    public function saveToDatabase()
     {
-        echo $this->generate();
+        // Simulación de guardar en la base de datos
+        echo "Guardando el pedido en la base de datos...\n";
+    }
+
+    public function generateInvoice()
+    {
+        echo "Generando factura del pedido...\n";
+        foreach ($this->items as $item) {
+            echo "Producto: {$item['item']}, Precio: {$item['price']}\n";
+        }
+        echo "Total: {$this->total}\n";
     }
 }
 
-$report = new Report();
-$report->saveToFile('reporte.txt');
-$report->printReport();
+$order = new Order();
+$order->addItem("Laptop", 1000);
+$order->addItem("Mouse", 50);
+$order->saveToDatabase();
+$order->generateInvoice();
